@@ -1,0 +1,25 @@
+{
+  "name": "esbuild-plugin-sixsixsix-killer",
+  "version": "1.0.0",
+  "description": "Remove bloc of code when 'if' statement meets 666 condition",
+  "main": "dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "author": "Inqnuam",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inqnuam/esbuild-plugin-sixsixsix-killer.git"
+  },
+  "scripts": {
+    "dev": "ENV=dev node ./build.js ",
+    "build": "node ./build.js && tsc"
+  },
+ 
+  "dependencies": {
+    "typescript": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.16",
+    "esbuild": "^0.15.7"
+  }
+}

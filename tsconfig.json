@@ -1,0 +1,11 @@
+{
+    "include": ["src/index.ts"],
+    "compilerOptions": {
+    "declaration": true,
+    "target": "es2018" ,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dist",
+    "moduleResolution": "Node"
+    }
+}
