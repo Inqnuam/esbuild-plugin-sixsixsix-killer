@@ -9,9 +9,14 @@ function transformFac(context: ts.TransformationContext) {
   const container = this;
   return (rootNode: ts.Node) => {
     function visit(node: ts.Node): ts.Node {
-      const foundImport = getStatement(context, node, container.killCode);
+      const foundImport = getStatement(context, node, container.killCode, (childNode) => {
+        return ts.visitEachChild(childNode, visit, context);
+      });
 
       if (typeof foundImport == "object") {
+        if (foundImport) {
+          return ts.visitEachChild(foundImport, visit, context);
+        }
         // @ts-ignore
         return foundImport;
       }

@@ -4,16 +4,16 @@ const { SixSixSixKiller } = require("../dist/index.js");
 
 const esBuildConfig = {
   bundle: true,
-  //  minify: true,
   platform: "node",
   target: "es6",
   platform: "node",
-  plugins: [SixSixSixKiller({ killCode: 911 })],
-  entryPoints: ["./test/testFile.ts"],
-  outdir: "dist",
+  plugins: [SixSixSixKiller({ killCode: 666 })],
+  entryPoints: ["./playground/index.ts"],
+  external: ["react"],
+  outdir: "./playground/",
   watch: {
     onRebuild: (result) => {
-      console.log("Rebuild !!");
+      console.log("Rebuild !!", new Date());
     },
   },
 };

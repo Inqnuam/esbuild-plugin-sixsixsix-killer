@@ -1,23 +1,49 @@
 import ts from "typescript";
 
-export function getStatement(context: ts.TransformationContext, node: ts.Node, killCode: number) {
+const getIfStatementResult = (context: ts.TransformationContext, node: ts.Node, killCode: number, rec: Function) => {
   // @ts-ignore
-  if (ts.isIfStatement(node) && node.expression?.text == killCode) {
-    if (!node.elseStatement) {
-      return null;
-    } else if (node.elseStatement) {
-      if (
+  if (node.expression) {
+    // @ts-ignore
+    if (node.expression?.text == killCode) {
+      // @ts-ignore
+      if (node.elseStatement) {
         // @ts-ignore
-        node.elseStatement.expression?.text == killCode
-      ) {
-        return null;
+        if (!node.elseStatement.expression) {
+          // @ts-ignore
+          return node.elseStatement.statements;
+        }
+        // @ts-ignore
+        return getIfStatementResult(context, node.elseStatement, killCode, rec); // rec(node);
       } else {
-        // @ts-ignore
-        return node.elseStatement.expression ? node.elseStatement : node.elseStatement.statements;
+        return null;
       }
+
+      // @ts-ignore
     } else {
-      return node.elseStatement ?? null;
+      // @ts-ignore
+      return rec(node);
     }
+  } else {
+    // @ts-ignore
+    if (node.elseStatement) {
+      // @ts-ignore
+      if (!node.elseStatement.expression) {
+        // @ts-ignore
+        return node.elseStatement.statements;
+      }
+      // @ts-ignore
+      return getIfStatementResult(context, node.elseStatement, killCode, rec);
+    } else {
+      return rec(node);
+    }
+  }
+};
+
+export function getStatement(context: ts.TransformationContext, node: ts.Node, killCode: number, rec: Function) {
+  // @ts-ignore
+  if (ts.isIfStatement(node)) {
+    const himar = getIfStatementResult(context, node, killCode, rec);
+    return himar;
   } else if (ts.isConditionalExpression(node)) {
     // @ts-ignore
     if (ts.isNumericLiteral(node.condition) && node.condition.text == killCode) {
@@ -33,7 +59,12 @@ export function getStatement(context: ts.TransformationContext, node: ts.Node, k
     // @ts-ignore
   } else if (ts.isExpressionStatement(node) && ts.isBinaryExpression(node.expression) && node.expression.left?.text == killCode) {
     return null;
+  } else if (ts.isParenthesizedExpression(node)) {
+    // @ts-ignore
+    if (node.expression.left?.text == killCode) {
+      return null;
+    }
   }
 
-  return undefined;
+  return node;
 }

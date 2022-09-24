@@ -37,7 +37,7 @@ const { SixSixSixKiller } = require("esbuild-plugin-sixsixsix-killer");
 
 const esBuildConfig = {
   bundle: true,
-  plugins: [process.env.NODE_ENV == "production" ? SixSixSixKiller() : undefined],
+  plugins: [process.env.NODE_ENV == "production" && SixSixSixKiller()],
   entryPoints: ["./index.ts"],
   outdir: "dist",
 };
@@ -47,7 +47,8 @@ esbuild.build(esBuildConfig);
 
 Then simply add an if(666) condition in your code and let SixSixKiller to remove it when the plugin is applied during build phase.
 
-Examples:
+Examples:  
+see [playground](playground/index.ts) for more examples and behavior info
 
 ```js
 let API_LINK = "https://myserver.com";
@@ -66,7 +67,8 @@ if (666) {
 
 const anotherExample = 666 ? "drop me" : "text in production";
 
-666 && console.log("This will be removed by SixSixSixKiller");
+// .tsx .jsx
+(666 && console.log("This will be removed by SixSixSixKiller"));
 ```
 
 output:
@@ -93,7 +95,7 @@ const { SixSixSixKiller } = require("esbuild-plugin-sixsixsix-killer");
 
 const esBuildConfig = {
   bundle: true,
-  plugins: [process.env.NODE_ENV == "production" ? SixSixSixKiller({ killCode: 911 }) : undefined],
+  plugins: [process.env.NODE_ENV == "production" && SixSixSixKiller({ killCode: 911 })],
   entryPoints: ["./index.ts"],
   outdir: "dist",
 };
