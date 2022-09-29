@@ -32,7 +32,7 @@ if (Date.now() > 234253) {
   console.log("Preserve me", API_LINK, anotherExample, View);
 }
 
-// NOTE: theses syntax are unsupported as they may cause unexpected issues in the final code
+// NOTE: theses syntax are NOT supported as they may cause unexpected behaviour in the final code
 /*
 const someVar = 666 && "some value";
 

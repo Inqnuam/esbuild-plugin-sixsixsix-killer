@@ -64,6 +64,9 @@ export function getStatement(context: ts.TransformationContext, node: ts.Node, k
     if (node.expression.left?.text == killCode) {
       return null;
     }
+    // @ts-ignore
+  } else if (ts.isBinaryExpression(node) && node.left?.text == killCode) {
+    return null;
   }
 
   return node;

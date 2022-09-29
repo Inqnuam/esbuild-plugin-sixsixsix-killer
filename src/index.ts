@@ -6,11 +6,18 @@ import { getLoader } from "./getLoader";
 import { stat } from "fs/promises";
 
 interface SixSixSixKillerConfig {
-  killCode: number;
+  killCode?: number;
+  filter?: RegExp;
 }
 
-export const SixSixSixKiller = function (config: SixSixSixKillerConfig = { killCode: 666 }) {
-  const filter = /.((m|c)?js(x)?|ts(x)?)$/;
+const defaultKillConfig: SixSixSixKillerConfig = {
+  killCode: 666,
+  filter: /\.((m|c)?js(x)?|ts(x)?)$/,
+};
+
+export const SixSixSixKiller = function (config: SixSixSixKillerConfig = defaultKillConfig) {
+  const filter = config.filter ?? defaultKillConfig.filter;
+  const killCode = config.killCode ?? defaultKillConfig.killCode;
   return {
     name: "SixSixSixKiller",
     setup(build: PluginBuild) {
@@ -19,6 +26,10 @@ export const SixSixSixKiller = function (config: SixSixSixKillerConfig = { killC
       // @ts-ignore
       build.onLoad({ filter }, async (args: OnLoadArgs) => {
         const { path: filePath } = args;
+
+        if (filePath.includes("/node_modules/")) {
+          return;
+        }
 
         let cached = cachedFiles.get(filePath);
 
@@ -34,7 +45,7 @@ export const SixSixSixKiller = function (config: SixSixSixKillerConfig = { killC
           const loader = getLoader[ext];
           const compilerOptions = getCompilerOptions[loader];
 
-          const contents = new Killer(filePath, config.killCode, compilerOptions, loader).output;
+          const contents = new Killer(filePath, killCode, compilerOptions, loader).output;
           cached = {
             contents,
             loader,
