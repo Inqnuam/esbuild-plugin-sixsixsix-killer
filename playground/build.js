@@ -10,7 +10,7 @@ const esBuildConfig = {
   plugins: [SixSixSixKiller({ killCode: 666 })],
   entryPoints: ["./playground/index.ts"],
   external: ["react"],
-  outdir: "./playground/",
+  outdir: "./playground/output/",
   watch: {
     onRebuild: (result) => {
       console.log("Rebuild !!", new Date());

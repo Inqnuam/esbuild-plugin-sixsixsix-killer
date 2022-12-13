@@ -48,7 +48,8 @@ esbuild.build(esBuildConfig);
 Then simply add an if(666) condition in your code and let SixSixKiller to remove it when the plugin is applied during build phase.
 
 Examples:  
-see [playground](playground/index.ts) for more examples and behavior info
+see [playground](playground/index.ts) for more examples and behavior info.  
+Launch `yarn test` or `npm run test` and play with [playground/index.ts](playground/index.ts) then check the [playground/output/index.js](playground/index.ts) content.
 
 ```js
 let API_LINK = "https://myserver.com";
@@ -68,7 +69,7 @@ if (666) {
 const anotherExample = 666 ? "drop me" : "text in production";
 
 // .tsx .jsx
-(666 && console.log("This will be removed by SixSixSixKiller"));
+666 && console.log("This will be removed by SixSixSixKiller");
 ```
 
 output:
@@ -87,7 +88,7 @@ const anotherExample = "text in production";
 
 ## Customization
 
-If you are not happy about the 666 condition you can change the value by any integer > 0 like `911`.
+If you are not happy about the `666` condition you can change the value by any integer > 0 like `911`.
 
 ```js
 const esbuild = require("esbuild");
